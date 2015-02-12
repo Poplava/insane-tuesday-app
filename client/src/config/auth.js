@@ -3,7 +3,7 @@ define(function() {
 
     function AuthConfig($authProvider) {
         $authProvider.google({
-            clientId: '660557492489-10v8dq4p7d6rb4k0j5vc657hocifkf81.apps.googleusercontent.com'
+            clientId: '356331103346-vaksgemets04t92jnbjgnt8hal013pm4.apps.googleusercontent.com'
         });
     }
 
