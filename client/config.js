@@ -16,9 +16,8 @@ requirejs.config({
         'angular-satellizer': ['angular']
     },
     packages: [
-        'app',
-        'module/user',
-        'screen/root'
+        'screen',
+        'module/user'
     ],
     deps: ['bootstrap']
 });
