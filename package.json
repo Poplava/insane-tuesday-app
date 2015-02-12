@@ -36,6 +36,9 @@
   },
   "devDependencies": {
     "forever-monitor": "^1.5.2",
-    "gulp": "^3.8.11"
+    "gulp": "^3.8.11",
+    "gulp-jshint": "^1.9.2",
+    "gulp-less": "^3.0.0",
+    "gulp-plumber": "^0.6.6"
   }
 }
