@@ -6,7 +6,8 @@ requirejs.config({
         'angular-resource': '../vendor/angular-resource/angular-resource',
         'angular-satellizer': '../vendor/satellizer/satellizer',
         'angular-bootstrap': '../vendor/angular-bootstrap/ui-bootstrap-tpls',
-        'text': '../vendor/requirejs-text/text'
+        'text': '../vendor/requirejs-text/text',
+        'moment': '../vendor/moment/moment'
     },
     shim: {
         'angular': {
@@ -15,7 +16,10 @@ requirejs.config({
         'angular-route': ['angular'],
         'angular-resource': ['angular'],
         'angular-satellizer': ['angular'],
-        'angular-bootstrap': ['angular']
+        'angular-bootstrap': ['angular'],
+        'moment': {
+            exports: 'moment'
+        }
     },
     packages: [
         'screen',

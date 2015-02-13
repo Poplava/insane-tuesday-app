@@ -9,26 +9,23 @@ module.exports.getCurrent = getCurrent;
 module.exports.createSummit = createSummit;
 
 function getCurrent(req, res) {
-
+    SummitModel
+        .getCurrent()
+        .then(function(summit) {
+            res.json(summit);
+        })
 }
 
 function createSummit(req, res) {
-    SummitModel.create({
-        name: '',
-        comment: '123',
-        date: moment(),
-        creator: req.user._id
-    }, function(err, summit) {
-        if (err) {
-            res.status(400).json(err);
-        }
-        SummitModel
-            .populate(summit, {
-                path: 'creator',
-                select: 'name picture'
-            })
-            .then(function(summit) {
-                res.json(summit);
-            });
-    });
+    SummitModel.createSummit({
+            name: req.body.name,
+            comment: req.body.comment,
+            date: moment(req.body.date, 'DD-MM-YYYY HH:mm'),
+            creator: req.user._id
+        })
+        .then(function(summit) {
+            res.json(summit);
+        }, function(err) {
+            res.status(500).json(err);
+        });
 }

@@ -2,5 +2,11 @@
 <a href="#/login">App</a>
 
 <div ng-controller="UserController">
+    <form ng-submit="submit()">
+        <input type="text" ng-model="name"/>
+        <input type="text" ng-model="comment"/>
+        <input type="text" ng-model="date"/>
+        <button>Submit</button>
+    </form>
 
 </div>
