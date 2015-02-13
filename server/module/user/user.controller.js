@@ -97,7 +97,10 @@ function decodeUserId(req, res, next) {
         return res.status(401).send({message: 'Token has expired'});
     }
     req.userId = payload.sub;
-    next();
+    UserModel.findById(req.userId).exec().then(function(user) {
+        req.user = user;
+        next();
+    });
 }
 
 function ensureAuthenticated(req, res, next) {
@@ -124,7 +127,7 @@ function me(req, res) {
     UserModel
         .findById(req.userId)
         .exec()
-        .then(function (user) {
+        .then(function(user) {
             res.send(user);
         });
 }
