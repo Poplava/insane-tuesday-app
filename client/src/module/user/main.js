@@ -10,22 +10,14 @@ define(function(require) {
     module.factory('UserFactory', UserFactory);
     module.directive('dUserLogin', UserLoginDirective);
 
-    Controller.$inject = ['$scope', 'UserFactory'];
+    Controller.$inject = ['$scope', '$http', 'UserFactory'];
 
     module.controller('UserController', Controller);
 
     return module;
 
-    function Controller($scope, UserFactory) {
-        $scope.user = UserFactory.user;
-        $scope.isAuthenticated = UserFactory.isAuthenticated;
-        $scope.authenticate = UserFactory.authenticate;
-        $scope.logout = UserFactory.logout;
-
-        $scope.$watch(function() {
-            return UserFactory.user;
-        }, function(user) {
-            $scope.user = user;
-        });
+    function Controller($scope, $http, UserFactory) {
+        $http.get('/api/summit/current');
+        $http.post('/api/summit');
     }
 });

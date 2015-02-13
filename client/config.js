@@ -19,7 +19,8 @@ requirejs.config({
     },
     packages: [
         'screen',
-        'module/user'
+        'module/user',
+        'module/summit'
     ],
     deps: ['bootstrap']
 });
