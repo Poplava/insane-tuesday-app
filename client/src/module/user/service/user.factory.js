@@ -16,15 +16,14 @@ define(function(require) {
         var factory = {
             isAuthenticated: $auth.isAuthenticated,
             user: new UserModel(),
-            authenticate: authenticate,
+            login: login,
             logout: logout,
-            getCurrent: getCurrent,
-            ensureAuthenticated: ensureAuthenticated
+            getCurrent: getCurrent
         };
 
         return factory;
 
-        function authenticate(provider) {
+        function login(provider) {
             return $auth
                 .authenticate(provider)
                 .then(getCurrent);
@@ -44,19 +43,6 @@ define(function(require) {
             } else {
                 return factory.user.$me();
             }
-        }
-
-        function ensureAuthenticated() {
-            var defer = $q.defer();
-
-            if (factory.isAuthenticated()) {
-                defer.resolve();
-            } else {
-                //TODO: move redirect form factory
-                $location.url('/login');
-                defer.reject();
-            }
-            return defer;
         }
     }
 });

@@ -12,29 +12,57 @@ define(function(require) {
         ]);
 
     Screen.$inject = ['$routeProvider'];
-    EnsureAuthenticatedResolver.$inject = ['UserFactory'];
-
-    module.config(Screen);
-
-    return module;
 
     function Screen($routeProvider) {
         $routeProvider
             .when('/', {
                 template: appTemplate,
                 resolve: {
-                    ensureAuthenticated: EnsureAuthenticatedResolver
+                    ensureAuthenticated: EnsureAuthenticated
                 }
             })
             .when('/login', {
-                template: loginTemplate
+                template: loginTemplate,
+                resolve: {
+                    ensureUnauthenticated: EnsureUnauthenticated
+                }
             })
             .otherwise({
                 redirectTo: '/'
             });
     }
 
-    function EnsureAuthenticatedResolver(UserFactory) {
-        return UserFactory.ensureAuthenticated();
+    EnsureAuthenticated.$inject = ['$q', '$location', 'UserFactory'];
+
+    function EnsureAuthenticated($q, $location, UserFactory) {
+        var defer = $q.defer();
+
+        if (UserFactory.isAuthenticated()) {
+            defer.resolve();
+        } else {
+            $location.url('/login');
+            defer.reject();
+        }
+
+        return defer;
     }
+
+    EnsureUnauthenticated.$inject = ['$q', '$location', 'UserFactory'];
+
+    function EnsureUnauthenticated($q, $location, UserFactory) {
+        var defer = $q.defer();
+
+        if (!UserFactory.isAuthenticated()) {
+            defer.resolve();
+        } else {
+            $location.url('/');
+            defer.reject();
+        }
+
+        return defer;
+    }
+
+    module.config(Screen);
+    return module;
+
 });

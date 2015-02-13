@@ -3,20 +3,17 @@ define(function(require) {
 
     var angular = require('angular');
 
-    Controller.$inject = ['$scope', '$modal', 'UserFactory'];
+    Controller.$inject = ['$scope', '$location', 'UserFactory'];
 
     return Controller;
 
-    function Controller($scope, $modal, UserFactory) {
-        $scope.login = function() {
-            console.log(123);
-        };
-
-        $scope.open = function (size) {
-
-            var modalInstance = $modal.open({
-                template: '<h1>Hello world!</h1>'
-            });
+    function Controller($scope, $location, UserFactory) {
+        $scope.login = function(provider) {
+            UserFactory
+                .login(provider)
+                .then(function() {
+                    $location.url('/');
+                });
         };
     }
 });
