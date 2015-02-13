@@ -10,6 +10,7 @@ define(function(require) {
     require('angular-route');
     require('angular-resource');
     require('angular-satellizer');
+    require('angular-bootstrap');
 
     var app = angular.module('MoneysApp', [
         RootScreen.name
@@ -21,6 +22,7 @@ define(function(require) {
         'ngRoute',
         'ngResource',
         'satellizer',
+        'ui.bootstrap',
         app.name
     ]);
 });
