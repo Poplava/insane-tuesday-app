@@ -17,7 +17,7 @@ define(function(require) {
     return module;
 
     function Controller($scope, $http, UserFactory) {
-        $http.get('/api/summit/current');
+        //$http.get('/api/summit/current');
         $http.post('/api/summit');
     }
 });
