@@ -24,7 +24,7 @@ requirejs.config({
     packages: [
         'screen',
         'module/user',
-        'module/summit'
+        'module/event'
     ],
     deps: ['bootstrap']
 });

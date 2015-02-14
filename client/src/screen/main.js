@@ -3,14 +3,14 @@ define(function(require) {
 
     var angular = require('angular'),
         UserModule = require('module/user'),
-        SummitModule = require('module/summit'),
+        EventModule = require('module/event'),
 
         appTemplate = require('text!./template/app.html'),
         loginTemplate = require('text!./template/login.html'),
 
         module = angular.module('RootScreen', [
             UserModule.name,
-            SummitModule.name
+            EventModule.name
         ]);
 
     Screen.$inject = ['$routeProvider'];

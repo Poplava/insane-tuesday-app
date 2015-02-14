@@ -20,13 +20,10 @@ define(function(require) {
     function Controller($scope, $http, UserFactory) {
         $scope.current = null;
         $scope.name = '';
-        $scope.comment = '';
         $scope.date = moment().day(9).format('DD-MM-YYYY HH:mm');
         $scope.submit = function() {
-            console.log(moment($scope.date, 'DD-MM-YYYY HH:mm').toDate());
-            $http.post('/api/summit', {
+            $http.post('/api/event', {
                 name: $scope.name,
-                comment: $scope.comment,
                 date: moment($scope.date, 'DD-MM-YYYY HH:mm').toDate()
             }).then(function() {
                 console.log('success', arguments);

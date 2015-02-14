@@ -1,0 +1,8 @@
+<div>
+    <div ng-if="currentEvent._id">
+        <h1>{{ currentEvent.name }}</h1>
+        <h2>{{ currentEvent.date | date : 'medium' }}</h2>
+        <h3>{{ currentEvent.creator.name | uppercase }}</h3>
+        <h4>The "{{ currentEvent.name }}" Event starts {{ secondsLeft }}</h4>
+    </div>
+</div>
