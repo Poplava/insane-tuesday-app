@@ -1,6 +1,8 @@
 <h1>App</h1>
 <a href="#/login">App</a>
 
+<d-current-summit></d-current-summit>
+
 <div ng-controller="UserController">
     <form ng-submit="submit()">
         <input type="text" ng-model="name"/>
@@ -8,5 +10,9 @@
         <input type="text" ng-model="date"/>
         <button>Submit</button>
     </form>
-
+    <div ng-if="current">
+        <h1>{{ current.name }}</h1>
+        <h2>{{ current.date | date : 'medium' }}</h2>
+        <h3>{{ current.creator.name | uppercase }}</h3>
+    </div>
 </div>

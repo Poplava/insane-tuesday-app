@@ -18,10 +18,12 @@ define(function(require) {
     return module;
 
     function Controller($scope, $http, UserFactory) {
+        $scope.current = null;
         $scope.name = '';
         $scope.comment = '';
         $scope.date = moment().day(9).format('DD-MM-YYYY HH:mm');
         $scope.submit = function() {
+            console.log(moment($scope.date, 'DD-MM-YYYY HH:mm').toDate());
             $http.post('/api/summit', {
                 name: $scope.name,
                 comment: $scope.comment,
@@ -32,7 +34,5 @@ define(function(require) {
                 console.log('error', res.data);
             });
         };
-
-        $http.get('/api/summit/current');
     }
 });

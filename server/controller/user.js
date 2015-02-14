@@ -1,17 +1,21 @@
 'use strict';
 
-var async = require('async'),
+var express = require('express'),
+    router = express.Router(),
+    async = require('async'),
     q = require('q'),
     moment = require('moment'),
     jwt = require('jwt-simple'),
-    config = require('../../config'),
+    config = require('../config'),
     request = require('request'),
-    UserModel = require('./user.model');
+    UserModel = require('../model/user');
 
-module.exports.google = google;
-module.exports.me = me;
-module.exports.decodeUserId = decodeUserId;
-module.exports.ensureAuthenticated = ensureAuthenticated;
+router.post('/google', google);
+router.get('/me', ensureUser, me);
+
+module.exports.ensureUser = ensureUser;
+
+module.exports.router = router;
 
 function google(req, res) {
     var params = {
@@ -38,7 +42,6 @@ function google(req, res) {
     }
 
     function responseProfile(err, response, profile) {
-        console.log(profile);
         authenticate(err, req, res, profile, 'google', profile.sub);
     }
 }
@@ -87,35 +90,22 @@ function createToken(user) {
     return jwt.encode(payload, config.auth.TOKEN_SECRET);
 }
 
-function decodeUserId(req, res, next) {
-    if (!req.headers.authorization) {
-        return next();
-    }
-    var token = req.headers.authorization.split(' ')[1];
-    var payload = jwt.decode(token, config.auth.TOKEN_SECRET);
-    if (payload.exp <= moment().unix()) {
-        return res.status(401).send({message: 'Token has expired'});
-    }
-    req.userId = payload.sub;
-    UserModel.findById(req.userId).exec().then(function(user) {
-        req.user = user;
-        next();
-    });
-}
-
-function ensureAuthenticated(req, res, next) {
+function ensureUser(req, res, next) {
     if (!req.headers.authorization) {
         return res.status(401).send({
             message: 'Please make sure your request has an Authorization header'
         });
     }
+
     var token = req.headers.authorization.split(' ')[1];
     var payload = jwt.decode(token, config.auth.TOKEN_SECRET);
+
     if (payload.exp <= moment().unix()) {
         return res.status(401).send({message: 'Token has expired'});
     }
+
     UserModel.findById(payload.sub).exec()
-        .then(function (user) {
+        .then(function(user) {
             req.user = user;
             next();
         }, function(err) {

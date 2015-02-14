@@ -1,7 +1,6 @@
 'use strict';
 
-var UserModule = require('./module/user'),
-    SummitModule = require('./module/summit');
+var UserController = require('./controller/user');
 
 module.exports = function(app) {
     console.log('Registering modules...');
@@ -10,8 +9,7 @@ module.exports = function(app) {
         res.render('index');
     });
 
-    app.use('/auth', UserModule.routes);
-    app.use('/api/summit', SummitModule.routes);
+    app.use('/auth', UserController.router);
 
     console.log('Done!');
 };

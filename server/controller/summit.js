@@ -1,12 +1,17 @@
 'use strict';
 
-var async = require('async'),
+var express = require('express'),
+    router = express.Router(),
+    async = require('async'),
     q = require('q'),
     moment = require('moment'),
+    UserController = require('./user'),
     SummitModel = require('./summit.model');
 
-module.exports.getCurrent = getCurrent;
-module.exports.createSummit = createSummit;
+router.get('/current', UserController.ensureUser, getCurrent);
+router.post('/', UserController.ensureUser, createSummit);
+
+module.exports.router = router;
 
 function getCurrent(req, res) {
     SummitModel
@@ -17,10 +22,11 @@ function getCurrent(req, res) {
 }
 
 function createSummit(req, res) {
+    console.log(req);
     SummitModel.createSummit({
             name: req.body.name,
             comment: req.body.comment,
-            date: moment(req.body.date, 'DD-MM-YYYY HH:mm'),
+            date: req.body.date,
             creator: req.user._id
         })
         .then(function(summit) {

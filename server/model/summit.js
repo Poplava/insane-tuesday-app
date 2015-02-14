@@ -13,7 +13,10 @@ var SummitSchema = new Schema({
         type: String,
         required: true
     },
-    comment: String,
+    visitors: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }],
     createdAt: {
         type: Date,
         default: Date.now
@@ -37,8 +40,8 @@ SummitModel = mongoose.model('Summit', SummitSchema);
 module.exports = SummitModel;
 
 //validators
-SummitSchema.path('date').validate(validateCurrent, 'Summit already pending.');
-SummitSchema.path('date').validate(validateDate, 'Date should be gte now');
+SummitSchema.path('date').validate(validateCurrent, 'Summit is already pending.');
+SummitSchema.path('date').validate(validateDate, 'Date should be gte now.');
 
 
 function getCurrent() {
