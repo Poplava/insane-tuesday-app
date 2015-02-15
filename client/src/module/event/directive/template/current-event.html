@@ -5,11 +5,11 @@
                 <div class="item" flex>Next event:</div>
                 <div class="item"><i class="fa fa-clock-o"></i> Event starts {{ secondsLeft }}</div>
             </header>
-            <div layout horizontal center>
+            <section layout horizontal center>
                 <div flex class="item name" flex>{{ currentEvent.name }}</div>
-            </div>
+            </section>
             <footer layout horizontal center>
-                <div><img ng-src="{{ currentEvent.creator.picture }}"></div>
+                <div class="picture"><img ng-src="{{ currentEvent.creator.picture }}"></div>
                 <div class="item" flex>Created by: {{ currentEvent.creator.name }}</div>
                 <div class="item" title="Topics"><i class="fa fa-tags"></i> {{ currentEvent.topics.length }}</div>
                 <div class="item" title="Users"><i class="fa fa-users"></i> {{ currentEvent.users.length }}</div>
