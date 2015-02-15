@@ -2,3 +2,4 @@ client/vendor
 .idea
 node_modules
 client/assets/css/*.css
+client/build
