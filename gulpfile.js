@@ -92,9 +92,9 @@ gulp.task('require-js-build', function(cb) {
         dir: './client/build',
         removeCombined: true,
         keepBuildDir: true,
-        optimize: 'none',
+        optimize: 'uglify2',
         preserveLicenseComments: false,
-        //generateSourceMaps: true,
+        generateSourceMaps: true,
         modules: [
             {
                 name: 'bootstrap',
