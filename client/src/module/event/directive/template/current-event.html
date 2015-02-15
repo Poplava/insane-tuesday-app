@@ -1,8 +1,18 @@
-<div>
-    <div ng-if="currentEvent._id">
-        <h1>{{ currentEvent.name }}</h1>
-        <h2>{{ currentEvent.date | date : 'medium' }}</h2>
-        <h3>{{ currentEvent.creator.name | uppercase }}</h3>
-        <h4>The "{{ currentEvent.name }}" Event starts {{ secondsLeft }}</h4>
+<div class="row d-current-event">
+    <div class="col-md-12">
+        <div class="event-box" ng-if="currentEvent._id">
+            <header layout horizontal center>
+                <div class="item" flex>Next event:</div>
+                <div class="item"><i class="fa fa-clock-o"></i> Event starts {{ secondsLeft }}</div>
+            </header>
+            <div layout horizontal center>
+                <div flex class="item name" flex>{{ currentEvent.name }}</div>
+            </div>
+            <footer layout horizontal center>
+                <div class="item" flex>Created by: {{ currentEvent.creator.name }}</div>
+                <div class="item">Topics: {{ currentEvent.topics.length }}</div>
+                <div class="item">Users: {{ currentEvent.users.length }}</div>
+            </footer>
+        </div>
     </div>
 </div>
