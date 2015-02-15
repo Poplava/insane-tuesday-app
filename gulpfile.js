@@ -4,7 +4,8 @@ var gulp = require('gulp'),
     forever = require('forever-monitor'),
     jshint = require('gulp-jshint'),
     plumber = require('gulp-plumber'),
-    less = require('gulp-less');
+    less = require('gulp-less'),
+    requirejs = require('requirejs');
 
 gulp.task('less', function () {
     gulp.src('./client/assets/css/*.less')
@@ -52,7 +53,7 @@ gulp.task('jshint-server-watch', function() {
     ], ['jshint-server']);
 });
 
-gulp.task('node-server-watch', function() {
+gulp.task('server-dev', function() {
     var child = new (forever.Monitor)('server.js', {
         max: 1,
         sourceDir: 'server/',
@@ -68,6 +69,43 @@ gulp.task('node-server-watch', function() {
     child.start();
 });
 
+gulp.task('server-production', function() {
+    var child = new (forever.Monitor)('server.js', {
+        max: 1,
+        sourceDir: 'server/',
+        env: {'NODE_ENV': 'production'},
+        watch: true,
+        watchDirectory: 'server/'
+    });
+
+    child.on('exit', function() {
+        console.log('server/server.js has exited');
+    });
+
+    child.start();
+});
+
+gulp.task('require-js-build', function(cb) {
+    requirejs.optimize({
+        baseUrl: './client/src',
+        mainConfigFile: './client/config.js',
+        dir: './client/build',
+        removeCombined: true,
+        keepBuildDir: true,
+        optimize: 'none',
+        preserveLicenseComments: false,
+        //generateSourceMaps: true,
+        modules: [
+            {
+                name: 'bootstrap',
+                insertRequire: ['bootstrap']
+            }
+        ]
+    }, function() {
+        cb();
+    });
+});
+
 gulp.task('default', [
     'less',
     'jshint-client',
@@ -75,5 +113,11 @@ gulp.task('default', [
     'watch-less',
     'jshint-client-watch',
     'jshint-server-watch',
-    'node-server-watch'
+    'server-dev'
+]);
+
+gulp.task('production', [
+    'less',
+    'require-js-build',
+    'server-production'
 ]);
