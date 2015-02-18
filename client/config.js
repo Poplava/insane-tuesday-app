@@ -23,8 +23,7 @@ requirejs.config({
     },
     packages: [
         'screen',
-        'module/user',
-        'module/event'
+        'module/security'
     ],
     deps: ['bootstrap']
 });

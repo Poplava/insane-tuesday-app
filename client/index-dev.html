@@ -12,7 +12,10 @@
 </head>
 <body>
 
-<div class="container" ng-view></div>
+<div ng-controller="AppCtrl" ng-cloak>
+    {{ foo }}
+</div>
+
 <script src="vendor/requirejs/require.js" data-main="config"></script>
 
 </body>
