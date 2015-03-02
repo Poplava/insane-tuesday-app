@@ -6,9 +6,9 @@ var express = require('express'),
     q = require('q'),
     moment = require('moment'),
     jwt = require('jwt-simple'),
-    config = require('../config'),
+    config = require('../../config'),
     request = require('request'),
-    UserModel = require('../model/user');
+    UserModel = require('../../model/user');
 
 router.post('/google', google);
 router.get('/me', ensureUser, me);
@@ -92,7 +92,7 @@ function createToken(user) {
 
 function ensureUser(req, res, next) {
     if (!req.headers.authorization) {
-        return res.status(401).send({
+        return res.status(401).json({
             message: 'Please make sure your request has an Authorization header'
         });
     }
@@ -101,21 +101,28 @@ function ensureUser(req, res, next) {
     var payload = jwt.decode(token, config.auth.TOKEN_SECRET);
 
     if (payload.exp <= moment().unix()) {
-        return res.status(401).send({message: 'Token has expired'});
+        return res.status(401).json({
+            message: 'Token has expired'
+        });
     }
 
-    UserModel.findById(payload.sub).exec()
+    UserModel
+        .findById(payload.sub)
+        .exec()
         .then(function(user) {
             req.user = user;
             next();
         }, function(err) {
-            return res.status(500).send({error: 'Wrong email and/or password'});
+            return res.status(500).json({
+                error: 'Wrong email and/or password'
+            });
         });
 }
 
 function me(req, res) {
     UserModel
-        .findById(req.userId)
+        .findById(req.user._id)
+        .select('-__v -google')
         .exec()
         .then(function(user) {
             res.send(user);

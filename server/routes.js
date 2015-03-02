@@ -1,13 +1,13 @@
 'use strict';
 
-var UserController = require('./controller/user'),
-    EventController = require('./controller/event');
+var UserModule = require('./module/user'),
+    PlayerModule = require('./module/player');
 
 module.exports = function(app) {
     console.log('Registering modules...');
 
-    app.use('/auth', UserController.router);
-    app.use('/api/event', EventController.router);
+    app.use('/auth', UserModule.router);
+    app.use('/api/players', PlayerModule.router);
 
     console.log('Done!');
 };
