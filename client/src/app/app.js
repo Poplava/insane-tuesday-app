@@ -4,6 +4,9 @@ define(function(require) {
     var angular = require('angular'),
         RoutingConfig = require('./config/routing'),
         AuthConfig = require('./config/auth'),
+
+        SecurityModule = require('module/security'),
+
         AppController = require('./controller/app.controller'),
         app;
 
@@ -16,8 +19,12 @@ define(function(require) {
         'ngRoute',
         'ngResource',
         'satellizer',
-        'ui.bootstrap'
+        'ui.bootstrap',
+        SecurityModule.name
     ]);
+
+    app.config(RoutingConfig);
+    app.config(AuthConfig);
 
     app.controller('AppCtrl', AppController);
 

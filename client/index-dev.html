@@ -13,7 +13,8 @@
 <body>
 
 <div ng-controller="AppCtrl" ng-cloak>
-    {{ foo }}
+    {{ foo }} {{ user | json }}
+    <button ng-click="login('google')">google login</button>
 </div>
 
 <script src="vendor/requirejs/require.js" data-main="config"></script>
